@@ -205,6 +205,5 @@ public class Builds {
         // 7. Ripristina la matrice per tornare al mondo 3D normale
         GL11.glPopMatrix();
     }
-    
-       
+        
 }
