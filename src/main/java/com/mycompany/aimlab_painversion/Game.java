@@ -38,7 +38,8 @@ public class Game {
         gunData.loadModel("blaster-n.obj"); //e, l
         
         Renderer gunRenderer = new Renderer();
-        gunRenderer.compileGunModel(gunData); // Qui invii i dati alla GPU
+        gunRenderer.compileGunModel(gunData);  // Qui invii i dati alla GPU
+        Builds.compile();  // Qui invii i dati alla GPU
         
         while (!glfwWindowShouldClose(window)) {
             
@@ -64,5 +65,6 @@ public class Game {
         }
         
         gunRenderer.cleanup();
+        Builds.cleanup();
     }
 }

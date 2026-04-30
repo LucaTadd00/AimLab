@@ -35,20 +35,26 @@ public class OBJLoader {
                 }
                 // AGGIORNATO: Leggiamo la faccia collegando i vertici alle normali
                 else if (line.startsWith("f ")) {
-                    String[] tokens = line.split("\\s+");
+                    java.util.StringTokenizer st = new java.util.StringTokenizer(line);
+                    st.nextToken(); // salta "f"
                     int[][] face = new int[3][2]; // 3 punti del triangolo, 2 indici ciascuno (V e VN)
                     
                     for (int i = 0; i < 3; i++) {
-                        // Un token tipico è "1/1/1" o "1//1" (Vertice/Texture/Normale)
-                        String[] parts = tokens[i + 1].split("/");
+                        String token = st.nextToken();
+                        int firstSlash = token.indexOf('/');
+                        int secondSlash = token.indexOf('/', firstSlash + 1);
                         
-                        face[i][0] = Integer.parseInt(parts[0]) - 1; // Indice Vertice
-                        
-                        // Controlliamo se la normale esiste in questo file OBJ
-                        if (parts.length == 3 && !parts[2].isEmpty()) {
-                            face[i][1] = Integer.parseInt(parts[2]) - 1; // Indice Normale
+                        if (firstSlash == -1) {
+                            face[i][0] = Integer.parseInt(token) - 1;
+                            face[i][1] = -1;
                         } else {
-                            face[i][1] = -1; // Niente normale
+                            face[i][0] = Integer.parseInt(token.substring(0, firstSlash)) - 1;
+                            
+                            if (secondSlash != -1 && secondSlash + 1 < token.length()) {
+                                face[i][1] = Integer.parseInt(token.substring(secondSlash + 1)) - 1;
+                            } else {
+                                face[i][1] = -1;
+                            }
                         }
                     }
                     faces.add(face);

@@ -17,10 +17,32 @@ import static org.lwjgl.opengl.GL11.glVertex3f;
 
 public class Builds {
     
+    private static int displayListId = -1;
+
+    public static void compile() {
+        displayListId = GL11.glGenLists(1);
+        GL11.glNewList(displayListId, GL11.GL_COMPILE);
+        wall();
+        ground(); 
+        miniwall();
+        GL11.glEndList();
+        System.out.println("Muri e pavimento compilati nella Display List GPU!");
+    }
+    
+    public static void cleanup() {
+        if (displayListId != -1) {
+            GL11.glDeleteLists(displayListId, 1);
+        }
+    }
+    
     public static void buildAll() {
-       wall();
-       ground(); 
-       miniwall();
+        if (displayListId != -1) {
+            GL11.glCallList(displayListId);
+        } else {
+            wall();
+            ground(); 
+            miniwall();
+        }
     }
     
       
@@ -195,12 +217,29 @@ public class Builds {
         // NUOVO: Riduci la scala del modello se è troppo grande! 
         GL11.glScalef(1.5f, 1.5f, 1.5f); 
         
+        try (org.lwjgl.system.MemoryStack stack = org.lwjgl.system.MemoryStack.stackPush()) {
+            java.nio.FloatBuffer matAmbient = stack.floats(0.0f, 0.1f, 0.2f, 1.0f); 
+            java.nio.FloatBuffer matDiffuse = stack.floats(0.1f, 0.5f, 0.8f, 1.0f); // Azzurro metallico
+            java.nio.FloatBuffer matSpecular = stack.floats(1.0f, 1.0f, 1.0f, 1.0f); // Riflessi forti
+            
+            GL11.glMaterialfv(GL11.GL_FRONT, GL11.GL_AMBIENT, matAmbient);
+            GL11.glMaterialfv(GL11.GL_FRONT, GL11.GL_DIFFUSE, matDiffuse);
+            GL11.glMaterialfv(GL11.GL_FRONT, GL11.GL_SPECULAR, matSpecular);
+            GL11.glMaterialf(GL11.GL_FRONT, GL11.GL_SHININESS, 100.0f); // Molto lucida
+        }
+        
         GL11.glColor3f(0.3f, 0.3f, 0.3f);
 
         // 6. Disegna il modello
         GL11.glCallList(gun.getgunDisplayListId());
         
         GL11.glColor3f(1.0f, 1.0f, 1.0f);
+        
+        try (org.lwjgl.system.MemoryStack stack = org.lwjgl.system.MemoryStack.stackPush()) {
+            java.nio.FloatBuffer defaultSpec = stack.floats(0.0f, 0.0f, 0.0f, 1.0f);
+            GL11.glMaterialfv(GL11.GL_FRONT, GL11.GL_SPECULAR, defaultSpec);
+            GL11.glMaterialf(GL11.GL_FRONT, GL11.GL_SHININESS, 0.0f);
+        }
 
         // 7. Ripristina la matrice per tornare al mondo 3D normale
         GL11.glPopMatrix();
