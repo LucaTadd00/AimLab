@@ -1,14 +1,15 @@
-Benvenuto nel repository di **AimLab**, un prototipo di gioco 3D in fase di sviluppo iniziale. Questo progetto nasce come esperimento per testare meccaniche di movimento e shooting in un ambiente tridimensionale (Scopo Didattico).
+Welcome to the **AimLab** repository, an early-stage 3D game prototype. This project started as an experiment to test movement and shooting mechanics in a three-dimensional environment (for educational purposes).
 
 > [!IMPORTANT]
-> **Stato attuale: Embrionale.** Il progetto è attualmente un "Technical Prototype". Molte funzionalità sono assenti o soggette a cambiamenti radicali.
+> **Current status: Early stage.** The project is currently a "Technical Prototype". Many features are missing or subject to radical changes.
+> If you have any ideas or improvements for the code, feel free to open an issue or reach out!
 
-## 🕹️ Caratteristiche Attuali
-- Movimento base del giocatore in prima/terza persona.
-- Implementazione del sistema di puntamento.
-- Modelli 3D prototipali per armi e ambiente.
+## 🕹️ Current Features
+- Basic player movement in first/third person.
+- Implementation of the aiming system.
+- Prototype 3D models for weapons and environment.
 
-## 🛠️ Tecnologie Utilizzate
-- **Librerie grafiche:** OpenGL (tramite Java / LWJGL)
-- **Linguaggio:** Java
-- **Asset 3D:** [Kenney Blaster Kit](https://www.kenney.nl/assets/blaster-kit)
+## 🛠️ Built With
+- **Graphics libraries:** OpenGL (via Java / LWJGL)
+- **Language:** Java
+- **3D Assets:** [Kenney Blaster Kit](https://www.kenney.nl/assets/blaster-kit)
